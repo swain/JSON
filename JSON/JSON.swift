@@ -8,6 +8,7 @@
 
 import Foundation
 
+@dynamicMemberLookup
 public enum JSON: Codable, Equatable {
     case number(Double)
     case string(String)
@@ -50,6 +51,15 @@ public enum JSON: Codable, Equatable {
             try container.encode(dict)
         case .null:
             try container.encodeNil()
+        }
+    }
+    
+    public subscript(dynamicMember input: String) -> JSON? {
+        get {
+            return self[input]
+        }
+        set {
+            self[input] = newValue
         }
     }
 }
@@ -175,3 +185,4 @@ extension JSON: CustomStringConvertible, CustomDebugStringConvertible {
         return self.debugDescription
     }
 }
+
